@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#26050f">
+  <title>Happy Birthday</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Manrope:wght@300..800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="sections.css">
+  <link rel="stylesheet" href="photobooth.css">
+  <link rel="stylesheet" href="stack.css">
+</head>
+<body>
+
+  <!-- Lapisan latar (parallax) -->
+  <div class="bg" aria-hidden="true">
+    <div class="bg__tint"></div>
+    <div class="bg-layer bg-orb bg-orb--a" data-speed="0.25"></div>
+    <div class="bg-layer bg-orb bg-orb--b" data-speed="0.5"></div>
+    <div class="bg-layer bg-orb bg-orb--c" data-speed="0.15"></div>
+    <div class="bg__bokeh" id="bokeh"></div>
+    <div class="bg__vignette"></div>
+  </div>
+
+  <!-- Elemen 3D (Three.js) -->
+  <canvas id="three-canvas" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="Putar musik">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  </button>
+
+  <main>
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="hero" data-tint="#430a19">
+      <div class="hero__gift-fallback" aria-hidden="true">🎁</div>
+      <div class="hero__inner">
+        <p class="hero__for">For <span id="recipientName">You</span></p>
+        <h1 class="hero__title" id="heroTitle" aria-label="Happy Birthday">
+          <span class="line">Happy</span>
+          <span class="line">Birthday</span>
+        </h1>
+        <p class="hero__sub" id="heroSub"></p>
+        <div class="hero__actions">
+          <button class="btn btn--primary" id="openGift" type="button">
+            <span class="btn__label">Open Gift</span>
+          </button>
+          <button class="btn btn--ghost" id="openSecret" type="button">
+            <span class="btn__label">Secret Message</span>
+          </button>
+        </div>
+        <p class="hero__hint" id="giftHint" aria-live="polite"></p>
+      </div>
+      <button class="hero__scroll" id="scrollHint" type="button" aria-label="Gulir ke bawah">
+        <span class="hero__scroll-line"></span>
+      </button>
+    </section>
+
+    <!-- ========== PESAN ========== -->
+    <section class="section message" id="message" data-tint="#26050f">
+      <div class="message__numeral" aria-hidden="true"><span id="ageNumeral">25</span></div>
+      <div class="message__inner">
+        <h2 class="section-title" data-reveal="up">A Small Message</h2>
+        <p class="message__text" id="messageText"></p>
+        <p class="message__sign" id="messageSign" data-reveal="fade"></p>
+      </div>
+    </section>
+
+    <!-- ========== PHOTO BOOTH ========== -->
+    <section class="section booth" id="booth" data-tint="#1a0309">
+      <header class="section-head" data-reveal="up">
+        <h2 class="section-title">Printed specifically for you</h2>
+        <p class="section-lead">Scroll slowly. Six memory photos emerge one by one from the photo booth machine.</p>
+      </header>
+
+      <div class="booth__machine" id="boothMachine">
+        <div class="tilt" id="tilt">
+          <div class="printer" id="printer">
+            <div class="printer__top"></div>
+            <div class="printer__front">
+              <div class="printer__panel">
+                <span class="printer__leds" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="printer__lcd" id="printerStatus">Ready</span>
+              </div>
+              <div class="printer__brand">Photo Booth</div>
+              <div class="printer__slot" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="strip-window" id="stripWindow">
+            <div class="strip" id="strip"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TUMPUKAN KARTU ========== -->
+    <section class="section stack-section" id="memories" data-tint="#3b0916">
+      <header class="section-head" data-reveal="up">
+        <h2 class="section-title">Scroll Through Memories</h2>
+        <p class="section-lead">Drag the cards left or right to view the next photo.</p>
+      </header>
+
+      <div class="stack" id="stack" tabindex="0" role="group" aria-label="Stack of memory photos. Use the left and right arrow buttons to navigate."></div>
+
+      <div class="stack__controls" data-reveal="up">
+        <button class="round-btn" id="stackPrev" type="button" aria-label="Previous photo">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span class="stack__counter" id="stackCounter" aria-live="polite">1 / 6</span>
+        <button class="round-btn" id="stackNext" type="button" aria-label="Next photo">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== LILIN ========== -->
+    <section class="section wish" id="wish" data-tint="#26050f">
+      <h2 class="section-title" data-reveal="up">Make a Wish</h2>
+      <p class="section-lead" data-reveal="up" data-delay="0.1">Close your eyes for a moment, then blow out the candle.</p>
+
+      <button class="cake" id="cake" type="button" aria-label="Tiup lilin" data-reveal="scale">
+        <span class="cake__candle"><span class="cake__flame" id="flame"></span><span class="cake__wick"></span></span>
+        <span class="cake__tier cake__tier--top"></span>
+        <span class="cake__tier cake__tier--mid"></span>
+        <span class="cake__tier cake__tier--bottom"></span>
+        <span class="cake__plate"></span>
+        <span class="cake__smoke" id="smoke" aria-hidden="true"></span>
+      </button>
+      <p class="wish__hint" id="wishHint" aria-live="polite">Tap the cake to blow out the candle</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Created with all my heart, specifically for today.</p>
+  </footer>
+
+  <!-- ========== MODAL PESAN RAHASIA ========== -->
+  <div class="modal" id="secretModal" role="dialog" aria-modal="true" aria-labelledby="secretTitle" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="letter" id="letter">
+      <button class="letter__close" type="button" data-close aria-label="Close message">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      </button>
+      <div class="letter__seal" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 21s-7.5-4.6-9.3-9.2C1.4 8.4 3.4 5 6.8 5c2 0 3.5 1.1 5.2 3 1.7-1.9 3.2-3 5.2-3 3.4 0 5.4 3.4 4.1 6.8C19.5 16.4 12 21 12 21z" fill="currentColor"/></svg>
+      </div>
+      <h2 class="letter__title" id="secretTitle"></h2>
+      <div class="letter__body" id="secretLines"></div>
+      <p class="letter__sign" id="secretSign"></p>
+    </div>
+  </div>
+
+  <noscript><p style="position:fixed;inset:auto 0 0 0;padding:1rem;background:#8f1d33;color:#fff;text-align:center">Aktifkan JavaScript untuk melihat kejutan ulang tahun ini.</p></noscript>
+
+  <!-- Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.3/confetti.browser.min.js"></script>
+
+  <!-- Kode project (urutan penting) -->
+  <script src="config.js"></script>
+  <script src="content.js"></script>
+  <script src="three-scene.js"></script>
+  <script src="animations.js"></script>
+  <script src="photobooth.js"></script>
+  <script src="cardstack.js"></script>
+  <script src="interactions.js"></script>
+</body>
+</html>

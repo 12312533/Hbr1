@@ -1,0 +1,212 @@
+/* ==========================================================
+   sections.css  -  hero, pesan, kue lilin, modal surat, musik
+   ========================================================== */
+
+/* ---------- HERO ---------- */
+.hero {
+  position: relative;
+  min-height: 100vh; min-height: 100svh;
+  display: flex; align-items: center;
+  padding: calc(var(--safe-top) + 4rem) var(--pad-x) 5rem;
+    overflow-x: clip;   /* cegah scroll ke samping di HP */
+}
+.hero::before {                        /* cahaya di belakang kado 3D */
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  right: 4%; top: 50%; width: min(62vw, 680px); aspect-ratio: 1;
+  transform: translateY(-50%);
+  background: radial-gradient(circle, rgba(226, 179, 94, .3), rgba(176, 42, 68, .2) 40%, transparent 68%);
+  filter: blur(8px);
+}
+.hero__inner { width: 100%; max-width: 1180px; margin-inline: auto; }
+.hero__inner > * { max-width: 40rem; }
+
+.hero__for {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  color: var(--gold-300);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .5);
+}
+.hero__title {
+  margin: .25em 0 .45em;
+  max-width: none !important;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.7rem, 8.2vw, 7rem);
+  line-height: .98; letter-spacing: -.035em;
+  font-variation-settings: 'SOFT' 100, 'opsz' 144;
+  color: #fdeedd;
+  /* teks timbul 3D bergaya maroon */
+  text-shadow:
+    0 .02em 0 #c63a55,
+    0 .04em 0 #a52640,
+    0 .06em 0 #82182f,
+    0 .08em 0 #5d0f21,
+    0 .12em .08em rgba(0, 0, 0, .55),
+    0 .3em .5em rgba(0, 0, 0, .55);
+}
+.hero__title .line { display: block; }
+.hero__title .word { display: inline-block; white-space: nowrap; }
+.hero__title .char { display: inline-block; will-change: transform; }
+
+.hero__sub { font-size: clamp(1.02rem, 2.2vw, 1.22rem); color: var(--cream-200); text-shadow: 0 2px 16px rgba(0, 0, 0, .6); margin-bottom: 2rem; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; }
+.hero__hint { margin-top: 1.4rem; min-height: 1.6em; font-style: italic; font-family: var(--font-display); color: var(--gold-300); opacity: .95; }
+
+.hero__gift-fallback { display: none; position: absolute; right: 12%; top: 30%; font-size: clamp(6rem, 16vw, 12rem); filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .6)); }
+.no-webgl .hero__gift-fallback { display: block; }
+
+.hero__scroll {
+  position: absolute; left: 50%; bottom: calc(1.4rem + var(--safe-bottom)); transform: translateX(-50%);
+  width: 28px; height: 46px; border: 2px solid rgba(241, 208, 142, .6); border-radius: 16px;
+  background: rgba(0, 0, 0, .15); padding: 0;
+}
+.hero__scroll-line { position: absolute; left: 50%; top: 8px; width: 3px; height: 9px; margin-left: -1.5px; border-radius: 2px; background: var(--gold-300); animation: scrollDot 1.8s var(--ease-out) infinite; }
+@keyframes scrollDot { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(16px); } }
+
+@media (max-width: 1100px), (max-aspect-ratio: 1/1) {
+  .hero { align-items: flex-end; text-align: center; padding-top: calc(var(--safe-top) + 44vh); padding-top: calc(var(--safe-top) + 44svh); padding-bottom: 3rem; }
+  .hero::before { right: auto; left: 50%; top: 27%; transform: translate(-50%, -50%); width: 100%; }
+  .hero__inner > * { margin-inline: auto; }
+  .hero__title { font-size: clamp(2.5rem, 13vw, 4.6rem); }
+  .hero__actions { justify-content: center; }
+  .hero__scroll { display: none; }
+  .hero__gift-fallback { right: 50%; top: 10%; transform: translateX(50%); }
+}
+
+/* ---------- PESAN ---------- */
+.message { min-height: 100vh; display: grid; place-items: center; overflow: hidden; }
+.message__numeral {
+  position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; user-select: none;
+}
+.message__numeral span {
+  font-family: var(--font-display); font-weight: 900; line-height: 1;
+  font-size: clamp(14rem, 50vw, 44rem);
+  color: transparent;
+  background: linear-gradient(180deg, rgba(176, 42, 68, .5), rgba(67, 10, 25, 0) 85%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-stroke: 2px rgba(226, 179, 94, .28);
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .45));
+  will-change: transform;
+}
+.message__inner { position: relative; max-width: 46rem; text-align: center; }
+.message__inner .section-title { margin-bottom: 1.6rem; }
+.message__text {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.35rem, 3.5vw, 2.35rem); line-height: 1.38;
+  font-variation-settings: 'SOFT' 100, 'opsz' 72;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, .55);
+}
+.message__text .w { display: inline-block; }
+.message__sign { margin-top: 2rem; font-family: var(--font-display); font-style: italic; color: var(--gold-300); font-size: 1.15rem; }
+
+/* ---------- KUE & LILIN ---------- */
+.wish { text-align: center; padding-bottom: clamp(5rem, 12vh, 8rem); }
+.wish .section-lead { margin-bottom: 3rem; }
+
+.cake {
+  position: relative; display: block; width: min(300px, 78vw); height: 330px; margin: 0 auto;
+  padding: 0; border: 0; background: none; cursor: pointer;
+  filter: drop-shadow(0 34px 28px rgba(0, 0, 0, .55));
+  -webkit-tap-highlight-color: transparent;
+}
+.cake > span { position: absolute; display: block; }
+.cake__plate {
+  left: -9%; right: -9%; bottom: 0; height: 26px; border-radius: 50%;
+  background: linear-gradient(180deg, #fbefe2, #d9b9a2);
+  box-shadow: inset 0 3px 3px rgba(255, 255, 255, .7), inset 0 -4px 6px rgba(0, 0, 0, .25);
+}
+.cake__tier {
+  left: 0; right: 0; border-radius: 14px;
+  background: linear-gradient(90deg, #4a0b1b 0%, #8f1d33 28%, #c13656 50%, #8f1d33 72%, #4a0b1b 100%);
+  box-shadow: inset 0 -10px 14px rgba(0, 0, 0, .3);
+}
+.cake__tier::before {                    /* permukaan atas krim */
+  content: ''; position: absolute; left: 0; right: 0; top: -14px; height: 28px; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 40%, #fff3e6, #efd0c0 70%);
+  box-shadow: inset 0 -4px 6px rgba(0, 0, 0, .15);
+}
+.cake__tier::after {                     /* lelehan krim */
+  content: ''; position: absolute; left: 0; right: 0; top: 2px; height: 30px;
+  background: radial-gradient(ellipse 9px 17px at 50% 0, #efd0c0 98%, transparent) 0 0 / 38px 30px repeat-x;
+}
+.cake__tier--bottom { bottom: 12px; height: 96px; }
+.cake__tier--mid { left: 13%; right: 13%; bottom: 106px; height: 78px; }
+.cake__tier--top { left: 26%; right: 26%; bottom: 178px; height: 62px; }
+
+.cake__candle { left: 50%; bottom: 226px; width: 12px; height: 54px; margin-left: -6px; z-index: 3; }
+.cake__candle::before {
+  content: ''; position: absolute; inset: 0; border-radius: 4px;
+  background: repeating-linear-gradient(-55deg, #fff 0 7px, #e2b35e 7px 14px);
+  box-shadow: inset -3px 0 4px rgba(0, 0, 0, .25), inset 2px 0 3px rgba(255, 255, 255, .5);
+}
+.cake__wick { position: absolute; left: 50%; top: -6px; width: 2px; height: 7px; margin-left: -1px; background: #2a0a10; }
+.cake__flame {
+  position: absolute; left: 50%; top: -36px; width: 16px; height: 32px; margin-left: -8px;
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 72%, #fff8d0 0 20%, #ffd25a 45%, #ff8a2a 75%, rgba(255, 90, 40, 0) 100%);
+  box-shadow: 0 0 18px 6px rgba(255, 190, 80, .6), 0 0 50px 18px rgba(255, 120, 60, .35);
+  transform-origin: 50% 100%;
+  animation: flicker 1.1s ease-in-out infinite alternate;
+}
+@keyframes flicker { 0% { transform: scale(1, 1) rotate(-2deg); } 50% { transform: scale(.94, 1.06) rotate(2deg); } 100% { transform: scale(1.03, .97) rotate(-1deg); } }
+.cake__smoke { left: 50%; bottom: 282px; width: 0; height: 0; pointer-events: none; }
+.smoke-puff {
+  position: absolute; left: -7px; top: 0; width: 14px; height: 14px; border-radius: 50%;
+  background: rgba(255, 255, 255, .5); filter: blur(5px);
+}
+.wish__hint { margin-top: 2.2rem; font-family: var(--font-display); font-style: italic; color: var(--gold-300); font-size: 1.1rem; min-height: 1.6em; }
+
+/* ---------- MODAL SURAT RAHASIA ---------- */
+.modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 1rem; }
+.modal[hidden] { display: none; }
+.modal__backdrop {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(90, 12, 32, .75), rgba(10, 0, 4, .94));
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.letter {
+  position: relative; width: min(520px, 100%); max-height: 88vh; max-height: 88svh; overflow: auto;
+  padding: clamp(1.6rem, 5vw, 2.8rem); text-align: center;
+  color: #3a0812;
+  background:
+    radial-gradient(120% 80% at 20% 0%, rgba(255, 255, 255, .6), transparent 60%),
+    linear-gradient(165deg, #fcf2e6, #ecd2bd);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .6),
+    inset 0 0 60px rgba(176, 120, 90, .22),
+    0 50px 90px -20px rgba(0, 0, 0, .85),
+    0 0 90px rgba(176, 42, 68, .35);
+  will-change: transform;
+}
+.letter__close {
+  position: absolute; top: .7rem; right: .7rem; width: 40px; height: 40px; display: grid; place-items: center;
+  border: 0; border-radius: 50%; color: #6b1226; background: rgba(107, 18, 38, .08);
+}
+.letter__close:hover { background: rgba(107, 18, 38, .16); }
+.letter__seal {
+  width: 58px; height: 58px; margin: 0 auto 1rem; display: grid; place-items: center; border-radius: 50%; color: #f8d7cf;
+  background: radial-gradient(circle at 35% 30%, #d4435f, #8f1d33 55%, #5a0d20);
+  box-shadow: inset 0 2px 3px rgba(255, 255, 255, .45), inset 0 -4px 6px rgba(0, 0, 0, .35), 0 8px 16px rgba(90, 13, 32, .5);
+}
+.letter__title { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 4.4vw, 1.9rem); line-height: 1.15; margin-bottom: 1.1rem; color: #5a0d20; }
+.letter__body p { font-family: var(--font-display); font-size: clamp(1.02rem, 2.8vw, 1.15rem); line-height: 1.65; margin-bottom: .95rem; font-variation-settings: 'SOFT' 100; }
+.letter__sign { margin-top: 1.2rem; font-family: var(--font-display); font-style: italic; color: #8f1d33; font-size: 1.15rem; }
+
+/* ---------- TOMBOL MUSIK ---------- */
+.music-toggle {
+  position: fixed; z-index: 60; top: calc(var(--safe-top) + 14px); right: 14px;
+  width: 48px; height: 48px; display: grid; place-items: center; padding: 0;
+  border: 0; border-radius: 50%;
+  background: rgba(23, 2, 10, .55);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 0 0 1px rgba(226, 179, 94, .45), 0 10px 20px -6px rgba(0, 0, 0, .7);
+  -webkit-tap-highlight-color: transparent;
+}
+.eq { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
+.eq i { width: 3px; height: 4px; border-radius: 2px; background: var(--gold-300); transition: height .3s; }
+.music-toggle.is-playing .eq i { animation: eq 0.9s ease-in-out infinite alternate; }
+.music-toggle.is-playing .eq i:nth-child(2) { animation-delay: -.3s; }
+.music-toggle.is-playing .eq i:nth-child(3) { animation-delay: -.6s; }
+.music-toggle.is-playing .eq i:nth-child(4) { animation-delay: -.15s; }
+@keyframes eq { from { height: 4px; } to { height: 18px; } }
